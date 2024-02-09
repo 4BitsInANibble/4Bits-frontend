@@ -3,12 +3,11 @@ import {React, useEffect} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
 import BottomBar from '../components/BottomBar'
 import Header from '../components/Header';
-import QRCodeScanner from './QRScannerTab';
 
 export default function HomeScreen({navigation}) {
   return (
     <>
-        <Header />
+        <Header navigation={navigation}/>
         <BottomBar navigation={navigation}/>
     </>
 

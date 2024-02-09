@@ -29,6 +29,7 @@ export default function App() {
   const { LightTheme } = adaptNavigationTheme({ reactNavigationLight : DefaultTheme });
   const { DarkTheme } = adaptNavigationTheme({ reactNavigationDark : DefaultTheme});
 
+
   return (
     <PaperProvider theme={themeType === 'light' ? MD3LightTheme : MD3DarkTheme}>
       <NavigationContainer theme={themeType === 'light' ? LightTheme : DarkTheme}>
