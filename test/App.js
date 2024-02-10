@@ -1,5 +1,5 @@
 import { StatusBar } from 'expo-status-bar';
-import React, {useEffect} from 'react';
+import React, {useEffect, useCallback} from 'react';
 import { Provider } from 'react-redux'
 import { View, StyleSheet, SafeAreaView } from 'react-native';
 import { Text, Surface, PaperProvider, IconButton, adaptNavigationTheme, MD3LightTheme, MD3DarkTheme } from 'react-native-paper';
@@ -10,9 +10,14 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {screens} from './screens/screens'
 import { useOrientation } from './hooks/phoneOrientation';
 import { useSelector } from 'react-redux';
+import { useFonts } from 'expo-font';
+import { fontList } from './font-lists';
+import { LoadingScreen } from './screens/LoadingScreen'
+import * as SplashScreen from 'expo-splash-screen';
+
+SplashScreen.preventAutoHideAsync();
 
 const Stack = createNativeStackNavigator()
-
 
 export default function App() {
   const orientation = useOrientation()
@@ -28,7 +33,6 @@ export default function App() {
   const themeType = useSelector((state) => state.utils.themeType)
   const { LightTheme } = adaptNavigationTheme({ reactNavigationLight : DefaultTheme });
   const { DarkTheme } = adaptNavigationTheme({ reactNavigationDark : DefaultTheme});
-
 
   return (
     <PaperProvider theme={themeType === 'light' ? MD3LightTheme : MD3DarkTheme}>
@@ -52,7 +56,7 @@ export default function App() {
       </NavigationContainer>
     </PaperProvider>
 
-  );
+    )
 }
 
 const styles = StyleSheet.create({

@@ -1,4 +1,4 @@
-package com.test;
+package com.anonymous.test;
 
 import android.os.Build;
 import android.os.Bundle;
