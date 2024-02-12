@@ -23,7 +23,7 @@ const Header = (props) => {
 
   return (
     <Appbar.Header mode='center-aligned' elevated>
-      {navigation.goBack !== undefined && <Appbar.BackAction onPress={navigation.goBack} />}
+      {navigation.canGoBack() && <Appbar.BackAction onPress={navigation.goBack} />}
       <Appbar.Content title="Nibble" />
       {/* <Button icon="account" mode="contained-tonal" textColor="black" onPress={_handleSearch}>
         Sign in

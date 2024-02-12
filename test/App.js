@@ -16,6 +16,12 @@ const Stack = createNativeStackNavigator()
 
 export default function App() {
   const orientation = useOrientation()
+  
+
+  const themeType = useSelector((state) => state.utils.themeType)
+  const { LightTheme } = adaptNavigationTheme({ reactNavigationLight : DefaultTheme });
+  const { DarkTheme } = adaptNavigationTheme({ reactNavigationDark : DefaultTheme});
+
   if (orientation == "LANDSCAPE") {
     return (
       <View style={styles.container}>
@@ -24,12 +30,7 @@ export default function App() {
       </View>
     );
   }
-
-  const themeType = useSelector((state) => state.utils.themeType)
-  const { LightTheme } = adaptNavigationTheme({ reactNavigationLight : DefaultTheme });
-  const { DarkTheme } = adaptNavigationTheme({ reactNavigationDark : DefaultTheme});
-
-
+  
   return (
     <PaperProvider theme={themeType === 'light' ? MD3LightTheme : MD3DarkTheme}>
       <NavigationContainer theme={themeType === 'light' ? LightTheme : DarkTheme}>
