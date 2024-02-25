@@ -1,11 +1,6 @@
 // userReducer.js
 const initialState = {
-    firstName: '',
-    lastName: '',
-    username: '',
-    email: '',
-    units: "Imperial",
-    // other user-related state properties
+    
   };
   
   const userReducer = (state = initialState, action) => {

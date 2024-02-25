@@ -15,16 +15,21 @@ export default function ProfileTab({navigation}) {
       "username": "cc6956@nyu.edu",
       "password": "password"
     }
-    const baseUrl = process.env.REACT_APP_FLASK_URL;
+    const baseUrl = "https://4bits.pythonanywhere.com"
+    console.log(baseUrl+"/users/login")
+    console.log(JSON.stringify(process))
     axios.patch(baseUrl+"/users/login", data)
-      .catch(console.error("Couldn't log in"));
+      // .then(resp => console.log(resp))
+      .catch(err => console.log(err));
     axios.get(baseUrl+`/users/${data["username"]}`)
-      .then(resp => dispatch({type: "SET_USER", payload: resp}))
+      // .then(resp => console.log(resp))
+      .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
+      .catch(err => console.error(err))
     
 
   }
   
-  if (userInfo.Name === '') {
+  if (Object.keys(userInfo).length == 0) {
     return (
       <View style={styles.container}>
         <Text />
@@ -41,11 +46,12 @@ export default function ProfileTab({navigation}) {
   const _handleLogOut = () => {
     const data = {
       "username": "cc6956@nyu.edu",
-      "password": "password"
     }    
-    axios.patch(baseUrl+"/users/logout", data)
-      .catch(console.error("Couldn't log out"));
-    dispatch({type: "SET_USER", payload: resp});
+    const baseUrl = "https://4bits.pythonanywhere.com";
+    axios.patch(baseUrl+`/users/${data["username"]}/logout`, data)
+      .then(dispatch({type: "SET_USER", payload: {}}))
+      .catch(err => console.error(err));
+    console.log(JSON.stringify(userInfo));
   }
   const _handleChangeTheme = () => {
     const newTheme = themeType === 'light' ? 'dark' : 'light';
@@ -58,9 +64,9 @@ export default function ProfileTab({navigation}) {
         flex:1,
         alignItems: 'center',
     justifyContent: 'center'}}>
-        <Avatar.Text size={90} label={`${userInfo.firstName[0]}${userInfo.lastName[0]}`} />
-        <Text variant="titleLarge">{`${userInfo.firstName} ${userInfo.lastName}`}</Text>
-        <Text variant="titleSmall">@{userInfo.username}</Text>
+        {/* <Avatar.Text size={90} label={`${userInfo.firstName[0]}${userInfo.lastName[0]}`} /> */}
+        <Text variant="titleLarge">{`${userInfo.Name}`}</Text>
+        <Text variant="titleSmall">@{userInfo.Username}</Text>
       </View>
       <Card style={{width: '100%'}}>
         <List.Section>

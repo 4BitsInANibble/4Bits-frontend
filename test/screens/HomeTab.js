@@ -22,13 +22,13 @@ const App = () => {
       <Searchbar style={styles.search} lightTheme placeholder="Search" onChangeText={onChangeSearch} value={searchQuery} elevation="2"/>
       <Button style={styles.button} mode="contained-tonal" textColor="#faf0e6" buttonColor="#ffb347" onPress={() => {}}>Explore your pantry</Button>
       <Button style={styles.button} mode="contained-tonal" textColor="#faf0e6" buttonColor="#ffb347" onPress={() => {}}>Check your shopping cart</Button>
-        <Appbar style={styles.item} >  
+        {/* <Appbar style={styles.item} >  
         <Appbar.Action size= {30} color= 'orange' icon="home" onPress={() => {}} />
         <Appbar.Action size= {30} color= 'orange' icon="scan-helper" onPress={() => {}} /> 
         <Appbar.Action size= {30} color= 'orange' icon="fridge-bottom" onPress={() => {}} />
         <Appbar.Action size= {30} color= 'orange' icon="cart-heart" onPress={() => {}} />
         <Appbar.Action size= {30} color= 'orange' icon="account" onPress={() => {}} /> 
-        </Appbar> 
+        </Appbar>  */}
 
     </SafeAreaView>
     </SafeAreaProvider>
