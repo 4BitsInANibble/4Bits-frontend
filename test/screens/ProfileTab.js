@@ -1,7 +1,8 @@
 import React, {useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Text, Surface, Divider, Button, Card, List } from 'react-native-paper';
-import { useDispatch, useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios'
 
 export default function ProfileTab({navigation}) {
   const userInfo = useSelector((state) => state.user);
@@ -11,15 +12,19 @@ export default function ProfileTab({navigation}) {
   const _signin = () => {
     console.log("SIGNING IN")
     const data = {
-      "firstName": "Xavier",
-      "lastName": "Davis",
-      "username": "rower2cool",
-      "email": "bestrower@gmail.com"
+      "username": "cc6956@nyu.edu",
+      "password": "password"
     }
-    dispatch({type: "SET_USER", payload: data})
+    const baseUrl = process.env.REACT_APP_FLASK_URL;
+    axios.patch(baseUrl+"/users/login", data)
+      .catch(console.error("Couldn't log in"));
+    axios.get(baseUrl+`/users/${data["username"]}`)
+      .then(resp => dispatch({type: "SET_USER", payload: resp}))
+    
+
   }
   
-  if (userInfo.firstName === '') {
+  if (userInfo.Name === '') {
     return (
       <View style={styles.container}>
         <Text />
@@ -35,12 +40,12 @@ export default function ProfileTab({navigation}) {
   const _handleChangePassword = () => console.log("Changing Password");
   const _handleLogOut = () => {
     const data = {
-      "firstName": "",
-      "lastName": "",
-      "username": "",
-      "email": ""
-    }
-    dispatch({type: "SET_USER", payload: data})
+      "username": "cc6956@nyu.edu",
+      "password": "password"
+    }    
+    axios.patch(baseUrl+"/users/logout", data)
+      .catch(console.error("Couldn't log out"));
+    dispatch({type: "SET_USER", payload: resp});
   }
   const _handleChangeTheme = () => {
     const newTheme = themeType === 'light' ? 'dark' : 'light';
