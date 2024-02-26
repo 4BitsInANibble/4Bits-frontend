@@ -19,9 +19,7 @@ export default function ProfileTab({navigation}) {
       "username": "cc6956@nyu.edu",
       "password": "password"
     }
-    const baseUrl = "https://4bits.pythonanywhere.com"
-    console.log(baseUrl+"/users/login")
-    console.log(JSON.stringify(process))
+    const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL
     axios.patch(baseUrl+"/users/login", data)
       // .then(resp => console.log(resp))
       .catch(err => console.log(err));
@@ -29,8 +27,8 @@ export default function ProfileTab({navigation}) {
       // .then(resp => console.log(resp))
       .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
       .catch(err => console.error(err))
-
-  }
+    }
+  const _handleLogin = () => navigation.navigate("Login");
   
   if (Object.keys(userInfo).length == 0) {
     return (
@@ -40,12 +38,13 @@ export default function ProfileTab({navigation}) {
         <Button onPress={_signin}>
           Sign in
         </Button>
-        <Button onPress={_handleLogin}>Actual Sign In</Button>
+        <Button onPress={_handleLogin}>
+          Actual Sign In
+        </Button>
       </View>
     )
   }
 
-  const _handleLogin = () => navigation.navigate("Login");
   const _handleUnitChange = () => navigation.navigate("Change-Units");
   const _handleChangePassword = () => console.log("Changing Password");
   const _handleLogOut = () => {

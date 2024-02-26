@@ -1,5 +1,7 @@
 import { useState } from 'react';
 import axios from "axios";
+import { View, StyleSheet } from 'react-native';
+import { Avatar, Text, Surface, Divider, Button, Card, List } from 'react-native-paper';
 
 function Login(props) {
 
@@ -41,8 +43,8 @@ function Login(props) {
       )}
 
     return (
-      <div>
-        <h1>Login</h1>
+      <View>
+        <Text>Login</Text>
           <form className="login">
             <input onChange={handleChange} 
                   type="email"
@@ -59,7 +61,7 @@ function Login(props) {
 
           <button onClick={logMeIn}>Submit</button>
         </form>
-      </div>
+      </View>
     );
 }
 
