@@ -12,7 +12,7 @@ function Login(props) {
       password: ""
     })
 
-    function logMeIn(event) {
+    const logMeIn = (event) => {
       axios({
         method: "POST",
         url:"/token",
@@ -47,22 +47,22 @@ function Login(props) {
     return (
       <View>
         <Text>Login</Text>
-          <form className="login">
-            <input onChange={handleChange} 
+            <TextInput onChange={handleChange}  // Fix change
                   type="email"
                   text={loginForm.email} 
                   name="email" 
                   placeholder="Email" 
                   value={loginForm.email} />
-            <TextInput onChange={handleChange} 
+            <TextInput onChange={handleChange} // Fix change
                   type="password"
                   text={loginForm.password} 
                   name="password" 
                   placeholder="Password" 
                   value={loginForm.password} />
 
-          <button onClick={logMeIn}>Submit</button>
-        </form>
+          <Button onClick={logMeIn}>
+            Submit
+          </Button>
       </View>
     );
 }
