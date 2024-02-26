@@ -1,5 +1,9 @@
 import { useState } from 'react';
-import axios from "axios";
+import React, {useEffect} from 'react-native';
+import { View, StyleSheet, ViewContainer } from 'react-native';
+import { Avatar, Text, Surface, Divider, Button, Card, List, TextInput } from 'react-native-paper';
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios'
 
 function Login(props) {
 
@@ -41,25 +45,25 @@ function Login(props) {
       )}
 
     return (
-      <div>
-        <h1>Login</h1>
-          <form className="login">
-            <input onChange={handleChange} 
+      <View>
+        <Text>Login</Text>
+          <ViewContainer className="login">
+            <TextInput onChange={handleChange} 
                   type="email"
                   text={loginForm.email} 
                   name="email" 
                   placeholder="Email" 
                   value={loginForm.email} />
-            <input onChange={handleChange} 
+            <TextInput onChange={handleChange} 
                   type="password"
                   text={loginForm.password} 
                   name="password" 
                   placeholder="Password" 
                   value={loginForm.password} />
 
-          <button onClick={logMeIn}>Submit</button>
-        </form>
-      </div>
+          <Button onClick={logMeIn}>Submit</Button>
+        </ViewContainer>
+      </View>
     );
 }
 

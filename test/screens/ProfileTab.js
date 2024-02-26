@@ -31,6 +31,7 @@ export default function ProfileTab({navigation}) {
       .catch(err => console.error(err))
 
   }
+  const _handleLogin = () => navigation.navigate("Login");
   
   if (Object.keys(userInfo).length == 0) {
     return (
@@ -45,7 +46,7 @@ export default function ProfileTab({navigation}) {
     )
   }
 
-  const _handleLogin = () => navigation.navigate("Login");
+ 
   const _handleUnitChange = () => navigation.navigate("Change-Units");
   const _handleChangePassword = () => console.log("Changing Password");
   const _handleLogOut = () => {
