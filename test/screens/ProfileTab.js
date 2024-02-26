@@ -29,7 +29,6 @@ export default function ProfileTab({navigation}) {
       // .then(resp => console.log(resp))
       .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
       .catch(err => console.error(err))
-    
 
   }
   
@@ -41,10 +40,12 @@ export default function ProfileTab({navigation}) {
         <Button onPress={_signin}>
           Sign in
         </Button>
+        <Button onPress={_handleLogin}>Actual Sign In</Button>
       </View>
     )
   }
 
+  const _handleLogin = () => navigation.navigate("Login");
   const _handleUnitChange = () => navigation.navigate("Change-Units");
   const _handleChangePassword = () => console.log("Changing Password");
   const _handleLogOut = () => {
