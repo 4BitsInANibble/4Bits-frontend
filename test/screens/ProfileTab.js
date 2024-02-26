@@ -20,13 +20,20 @@ export default function ProfileTab({navigation}) {
       "password": "password"
     }
     const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL
+    let AT;
     axios.patch(baseUrl+"/users/login", data)
-      // .then(resp => console.log(resp))
+      .then(resp => {
+        AT=resp.data.access_token
+        axios.get(baseUrl+`/users/${data["username"]}`, headers={Authorization: AT})
+          // .then(resp => console.log(resp))
+          .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
+          .catch(err => console.error(err))
+          console.log("GOT USER INFO")
+      })
       .catch(err => console.log(err));
-    axios.get(baseUrl+`/users/${data["username"]}`)
-      // .then(resp => console.log(resp))
-      .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
-      .catch(err => console.error(err))
+    console.log("LOGGED IN")
+    console.log(JSON.stringify(AT))
+    
     }
   const _handleLogin = () => navigation.navigate("Login");
   
