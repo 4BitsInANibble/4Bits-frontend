@@ -15,9 +15,7 @@ export default function BottomBar({navigation}) {
   const [routes, setRoutes] = useState([
     { key: 'home', title: 'Home', focusedIcon: 'home' },
     { key: 'recipes', title: 'Recipes', focusedIcon: 'book' },
-    { key: 'scan', title: 'Scan', focusedIcon: 'scan-helper'},
-    { key: 'cart', title: 'Shopping Cart', focusedIcon: 'cart-heart'},
-    { key: 'profile', title: 'Profile', focusedIcon: 'account'},
+    { key: 'profile', title: 'Profile', focusedIcon: 'account' },
   ]);
 
   const renderScene = BottomNavigation.SceneMap({
