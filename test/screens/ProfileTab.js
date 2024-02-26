@@ -29,6 +29,7 @@ export default function ProfileTab({navigation}) {
           .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
           .catch(err => console.error(err))
           console.log("GOT USER INFO")
+          
       })
       .catch(err => console.log(err));
     console.log("LOGGED IN")
@@ -58,7 +59,7 @@ export default function ProfileTab({navigation}) {
     const data = {
       "username": "cc6956@nyu.edu",
     }    
-    const baseUrl = "https://4bits.pythonanywhere.com";
+    const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL;
     axios.patch(baseUrl+`/users/${data["username"]}/logout`, data)
       .then(dispatch({type: "SET_USER", payload: {}}))
       .catch(err => console.error(err));

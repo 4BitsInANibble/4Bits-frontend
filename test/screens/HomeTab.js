@@ -70,7 +70,6 @@ const styles = StyleSheet.create({
   button: {
     padding: 5,
     margin: 10,
-    fontFamily: 'Arial',
     
     
   }
