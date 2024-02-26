@@ -38,22 +38,28 @@ function Login(props) {
       event.preventDefault()
     }
 
-    function handleChange(event) { 
-      const {value, name} = event.target
+    const handleEmail = (value) => { 
       setloginForm(prevNote => ({
-          ...prevNote, [name]: value})
+          ...prevNote, email: value})
       )}
+    
+    const handlePassword = (value) => { 
+      setloginForm(prevNote => ({
+          ...prevNote, password: value})
+      )}
+      
+    
 
     return (
       <View>
         <Text>Login</Text>
-            <TextInput onChange={handleChange}  // Fix change
+            <TextInput onChangeText={handleEmail}  // Fix change
                   type="email"
                   text={loginForm.email} 
                   name="email" 
                   placeholder="Email" 
                   value={loginForm.email} />
-            <TextInput onChange={handleChange} // Fix change
+            <TextInput secureTextEntry={true} onChangeText={handlePassword} // Fix change
                   type="password"
                   text={loginForm.password} 
                   name="password" 
