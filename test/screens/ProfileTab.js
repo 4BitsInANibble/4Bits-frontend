@@ -9,6 +9,10 @@ export default function ProfileTab({navigation}) {
   const themeType = useSelector((state) => state.utils.themeType);
   const dispatch = useDispatch()
 
+  useEffect(() => {
+    console.log(userInfo);
+  }, [userInfo])
+
   const _signin = () => {
     console.log("SIGNING IN")
     const data = {

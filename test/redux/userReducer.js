@@ -6,7 +6,7 @@ const initialState = {
   const userReducer = (state = initialState, action) => {
     switch (action.type) {
       case 'SET_USER':
-        return { ...state, ...action.payload}
+        return action.payload
       case 'SET_UNITS':
         return { ...state, units: action.payload}
       // handle other user-related actions
