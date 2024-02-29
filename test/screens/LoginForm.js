@@ -5,42 +5,52 @@ import { Avatar, Text, Surface, Divider, Button, Card, List, TextInput } from 'r
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 
-function Login(props) {
+function Login({navigation}) {
 
     const [loginForm, setloginForm] = useState({
-      email: "",
+      username: "",
       password: ""
     })
+    const dispatch = useDispatch();
 
-    const logMeIn = (event) => {
-      axios({
-        method: "POST",
-        url:"/token",
-        data:{
-          email: loginForm.email,
-          password: loginForm.password
-         }
-      })
-      .then((response) => {
-        props.setToken(response.data.access_token)
-      }).catch((error) => {
-        if (error.response) {
-          console.log(error.response)
-          console.log(error.response.status)
-          console.log(error.response.headers)
-          }
-      })
+    const logMeIn = () => {
+      console.log("SIGNING IN")
+      const data = {
+        "username": loginForm.username,
+        "password": loginForm.password
+      }
+      const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL
+      let AT;
+      axios.patch(baseUrl+"/users/login", data)
+        .then(resp => {
+          AT=resp.data.access_token
+          axios.get(baseUrl+`/users/${data["username"]}`, headers={Authorization: AT})
+            // .then(resp => console.log(resp))
+            .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
+            .catch(err => console.error(err))
+          console.log("GOT USER INFO")
+          dispatch({type: "SET_TOKENS", payload: {
+            access: resp.data.access_token, 
+            refresh: resp.data.refresh_token
+          }}) ////// DO HTTP TOKEN THING LATER, TERRIBLE SECURITY 
+            
+        })
+        .catch(err => console.log(err));
+      console.log("LOGGED IN")
+      console.log(JSON.stringify(AT))
 
       setloginForm(({
-        email: "",
+        username: "",
         password: ""}))
 
-      event.preventDefault()
+      navigation.pop();
+
+      
     }
 
-    const handleEmail = (value) => { 
+    const handleUsername = (value) => { 
       setloginForm(prevNote => ({
-          ...prevNote, email: value})
+          ...prevNote, username: value})
       )}
     
     const handlePassword = (value) => { 
@@ -52,23 +62,27 @@ function Login(props) {
 
     return (
       <View>
-        <Text>Login</Text>
-            <TextInput onChangeText={handleEmail}  // Fix change
-                  type="email"
-                  text={loginForm.email} 
-                  name="email" 
-                  placeholder="Email" 
-                  value={loginForm.email} />
-            <TextInput secureTextEntry={true} onChangeText={handlePassword} // Fix change
-                  type="password"
-                  text={loginForm.password} 
-                  name="password" 
-                  placeholder="Password" 
-                  value={loginForm.password} />
+        <View>
+          <Text>Login</Text>
+              <TextInput onChangeText={handleUsername}  // Fix change
+                    type="email"
+                    text={loginForm.username} 
+                    name="username" 
+                    placeholder="Username" 
+                    value={loginForm.username} />
+              <TextInput secureTextEntry={true} onChangeText={handlePassword} // Fix change
+                    type="password"
+                    text={loginForm.password} 
+                    name="password" 
+                    placeholder="Password" 
+                    value={loginForm.password} />
 
-          <Button onClick={logMeIn}>
+        </View>
+        <View>
+          <Button mode='contained' onPress={logMeIn}>
             Submit
           </Button>
+        </View>
       </View>
     );
 }

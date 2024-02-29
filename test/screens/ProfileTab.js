@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Avatar, Text, Surface, Divider, Button, Card, List } from 'react-native-paper';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,34 +8,14 @@ export default function ProfileTab({navigation}) {
   const userInfo = useSelector((state) => state.user);
   const themeType = useSelector((state) => state.utils.themeType);
   const dispatch = useDispatch()
+  const tokenInfo = useSelector((state) => state.tokens)
+  // DO THE HTTP COOKIE INSTEAD
 
   useEffect(() => {
     console.log(userInfo);
   }, [userInfo])
 
-  const _signin = () => {
-    console.log("SIGNING IN")
-    const data = {
-      "username": "cc6956@nyu.edu",
-      "password": "password"
-    }
-    const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL
-    let AT;
-    axios.patch(baseUrl+"/users/login", data)
-      .then(resp => {
-        AT=resp.data.access_token
-        axios.get(baseUrl+`/users/${data["username"]}`, headers={Authorization: AT})
-          // .then(resp => console.log(resp))
-          .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
-          .catch(err => console.error(err))
-          console.log("GOT USER INFO")
-          
-      })
-      .catch(err => console.log(err));
-    console.log("LOGGED IN")
-    console.log(JSON.stringify(AT))
-    
-    }
+  
   const _handleLogin = () => navigation.navigate("Login");
   
   if (Object.keys(userInfo).length == 0) {
@@ -43,11 +23,8 @@ export default function ProfileTab({navigation}) {
       <View style={styles.container}>
         <Text />
         <Avatar.Icon size={90} icon="account" />
-        <Button onPress={_signin}>
-          Sign in
-        </Button>
         <Button onPress={_handleLogin}>
-          Actual Sign In
+          Sign In
         </Button>
       </View>
     )
@@ -60,8 +37,11 @@ export default function ProfileTab({navigation}) {
       "username": "cc6956@nyu.edu",
     }    
     const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL;
-    axios.patch(baseUrl+`/users/${data["username"]}/logout`, data)
-      .then(dispatch({type: "SET_USER", payload: {}}))
+    axios.patch(baseUrl+`/users/${data["username"]}/logout`, data, {headers:{Authorization: tokenInfo.access}})
+      .then(() => {
+        dispatch({type: "SET_USER", payload: {}})
+        dispatch({type: "SET_TOKEN", payload: {access: "", refresh: ""}})
+      })
       .catch(err => console.error(err));
     console.log(JSON.stringify(userInfo));
   }

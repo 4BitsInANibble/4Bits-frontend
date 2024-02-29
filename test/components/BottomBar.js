@@ -31,7 +31,7 @@ export default function BottomBar({navigation}) {
     cart: CartRoute,
     profile: ProfileRoute,
   });
-  return (
+return (
     <>
       <BottomNavigation
         navigationState={{ index, routes }}
