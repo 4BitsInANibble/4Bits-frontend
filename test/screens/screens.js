@@ -1,14 +1,18 @@
 import HomeScreen from "./HomeScreen";
-import Login from "./LoginForm";
+import LoginScreen from "./LoginForm";
+import RegisterScreen from "./RegisterForm";
 
 export const screens = [ 
     {
         name: "Home",
         component: HomeScreen
     },
-
     {
         name: "Login",
-        component: Login
-    }
+        component: LoginScreen
+    },
+    {
+        name: "Register",
+        component: RegisterScreen
+    },
 ]

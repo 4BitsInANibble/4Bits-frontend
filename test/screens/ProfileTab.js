@@ -37,7 +37,8 @@ export default function ProfileTab({navigation}) {
       "username": "cc6956@nyu.edu",
     }    
     const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL;
-    axios.patch(baseUrl+`/users/${data["username"]}/logout`, data, {headers:{Authorization: tokenInfo.access}})
+    console.log(`Bearer ${tokenInfo.access}`);
+    axios.patch(baseUrl+`/users/${data["username"]}/logout`, data, {headers:{Authorization: `Bearer ${tokenInfo.access}`}})
       .then(() => {
         dispatch({type: "SET_USER", payload: {}})
         dispatch({type: "SET_TOKEN", payload: {access: "", refresh: ""}})
