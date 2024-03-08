@@ -2,6 +2,7 @@ import {useEffect, useState} from 'react';
 import {BottomNavigation, Text, MD3Colors, Icon} from 'react-native-paper'
 import ProfileTab from '../screens/ProfileTab';
 import HomeTab from '../screens/HomeTab';
+import ScanRoute from '../screens/ScanScreen'; 
 
 export default function BottomBar({navigation}) {
   const [index, setIndex] = useState(0);
@@ -10,7 +11,7 @@ export default function BottomBar({navigation}) {
 
   const RecipeRoute = () => <Text>RECIPES</Text>;
   
-  const ScanRoute = () => <Text>ScanRoute</Text>;
+  // const ScanRoute = () => <Text>ScanRoute</Text>;
   
   const CartRoute = () => <Text>CartRoute</Text>;
   
