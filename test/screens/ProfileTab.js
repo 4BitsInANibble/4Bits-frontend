@@ -34,7 +34,7 @@ export default function ProfileTab({navigation}) {
   const _handleChangePassword = () => console.log("Changing Password");
   const _handleLogOut = () => {
     const data = {
-      "username": "cc6956@nyu.edu",
+      "username": userInfo["Username"],
     }    
     const baseUrl = process.env.EXPO_PUBLIC_FLASK_URL;
     console.log(`Bearer ${tokenInfo.access}`);

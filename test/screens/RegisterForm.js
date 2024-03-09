@@ -28,7 +28,7 @@ function RegisterScreen({navigation}) {
         .then(resp => {
           AT=resp.data.access_token
           console.log(`AT: ${AT}`)
-          axios.get(baseUrl+`/users/${data["username"]}`, headers={Authorization: `Bearer ${AT}`})
+          axios({method:"get", url:`${baseUrl}/users/${data["username"]}`, headers:{Authorization: "Bearer " + AT}})
             // .then(resp => console.log(resp))
             .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
             .catch(err => console.error(err))

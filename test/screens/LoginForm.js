@@ -30,18 +30,21 @@ function LoginScreen({navigation}) {
         .then(resp => {
           AT=resp.data.access_token
 
-          axios.get(baseUrl+`/users/${data["username"]}`, headers={Authorization: "Bearer " + AT})
+          axios({method:"get", url:`${baseUrl}/users/${data["username"]}`, headers:{Authorization: "Bearer " + AT}})
             // .then(resp => console.log(resp))
             .then((resp) => dispatch({type: "SET_USER", payload: resp.data}))
             .catch(err => console.error(err))
-          console.log("GOT USER INFO")
+          console.log(resp.data)
           dispatch({type: "SET_TOKENS", payload: {
             access: resp.data.access_token, 
             refresh: resp.data.refresh_token
           }}) ////// DO HTTP TOKEN THING LATER, TERRIBLE SECURITY 
             
         })
-        .catch(err => console.log(err));
+        .catch(err => {
+          print("LOGIN FAILED")
+          console.log(err)
+        });
       console.log("LOGGED IN")
       console.log(JSON.stringify(AT))
 
