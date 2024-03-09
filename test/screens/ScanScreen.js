@@ -1,15 +1,23 @@
-// // ScanRoute.js
-import React, {useState} from 'react';
-import {View, Button, StyleSheet} from 'react-native';
-import {RNCamera} from 'react-native-camera';
+// ScanRoute.js
+import React, { useState, useEffect } from 'react';
+import { View, Button, StyleSheet } from 'react-native';
+import { Camera } from 'expo-camera';
 import axios from 'axios';
 
 const ScanRoute = () => {
   const [camera, setCamera] = useState(null);
+  const [hasPermission, setHasPermission] = useState(null);
+
+  useEffect(() => {
+    (async () => {
+      const { status } = await Camera.requestPermissionsAsync();
+      setHasPermission(status === 'granted');
+    })();
+  }, []);
 
   const takePicture = async () => {
     if (camera) {
-      const options = {quality: 0.5, base64: true};
+      const options = { quality: 0.5, base64: true };
       const data = await camera.takePictureAsync(options);
       uploadImage(data.base64);
     }
@@ -26,23 +34,24 @@ const ScanRoute = () => {
     }
   };
 
+  if (hasPermission === null) {
+    return <View />;
+  }
+  if (hasPermission === false) {
+    return <Text>No access to camera</Text>;
+  }
+
   return (
     <View style={styles.container}>
-      <RNCamera
+      <Camera
         ref={ref => setCamera(ref)}
         style={styles.preview}
-        type={RNCamera.Constants.Type.back}
-        flashMode={RNCamera.Constants.FlashMode.on}
-        androidCameraPermissionOptions={{
-          title: 'Permission to use camera',
-          message: 'We need your permission to use your camera',
-          buttonPositive: 'Ok',
-          buttonNegative: 'Cancel',
-        }}
-      />
-      <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
-        <Button onPress={() => takePicture()} title="Capture" />
-      </View>
+        type={Camera.Constants.Type.back}
+        flashMode={Camera.Constants.FlashMode.on}>
+        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
+          <Button title="Capture" onPress={() => takePicture()} />
+        </View>
+      </Camera>
     </View>
   );
 };
