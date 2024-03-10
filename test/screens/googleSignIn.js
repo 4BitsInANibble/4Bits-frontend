@@ -17,3 +17,36 @@ const GoogleLogin = async () => {
 	const userInfo = await GoogleSignin.signIn();
 	return userInfo;
 };
+
+export default function App() {
+	const [error, setError] = useState('');
+	const [loading, setLoading] = useState(false);
+
+	const handleGoogleLogin = async () => {
+		setLoading(true);
+		try {
+			const response = await GoogleLogin();
+			const { idToken, user } = response;
+
+			if (idToken) {
+				const resp = await authAPI.validateToken({
+					token: idToken,
+					email: user.email,
+				});
+				await handlePostLoginData(resp.data);
+			}
+		} catch (apiError) {
+			setError(
+				apiError?.response?.data?.error?.message || 'Something went wrong'
+			);
+		} finally {
+			setLoading(false);
+		}
+	};
+
+	return (
+		<View>
+			<Pressable onPress={handleGoogleLogin}>Continue with Google</Pressable>
+		</View>
+	);
+}
