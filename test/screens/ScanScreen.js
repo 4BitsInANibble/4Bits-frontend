@@ -1,12 +1,14 @@
-// ScanRoute.js
+// ScanScreen.js
 import React, { useState, useEffect } from 'react';
-import { View, Button, StyleSheet } from 'react-native';
+import { View, Text, Button, StyleSheet, ScrollView, ActivityIndicator } from 'react-native';
 import { Camera } from 'expo-camera';
 import axios from 'axios';
 
-const ScanRoute = () => {
+const ScanScreen = () => {
   const [camera, setCamera] = useState(null);
   const [hasPermission, setHasPermission] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const [foodItems, setFoodItems] = useState([]);
 
   useEffect(() => {
     (async () => {
@@ -24,13 +26,17 @@ const ScanRoute = () => {
   };
 
   const uploadImage = async (base64Image) => {
+    setLoading(true);
     try {
-      const response = await axios.post('YOUR_API_ENDPOINT', {
+      // Update this URL to the actual endpoint
+      const response = await axios.post('http://4bits.pythonanywhere.com/api/recognize_receipt', {
         image: base64Image,
       });
-      console.log('Image upload response:', response.data);
+      setFoodItems(response.data.foodItems); // Assuming the response has a 'foodItems' array
+      setLoading(false);
     } catch (error) {
       console.error('Image upload error:', error);
+      setLoading(false);
     }
   };
 
@@ -43,15 +49,12 @@ const ScanRoute = () => {
 
   return (
     <View style={styles.container}>
-      <Camera
-        ref={ref => setCamera(ref)}
-        style={styles.preview}
-        type={Camera.Constants.Type.back}
-        flashMode={Camera.Constants.FlashMode.on}>
-        <View style={{ flex: 0, flexDirection: 'row', justifyContent: 'center' }}>
-          <Button title="Capture" onPress={() => takePicture()} />
+      <Camera style={styles.camera} type={Camera.Constants.Type.back} ref={ref => setCamera(ref)}>
+        <View style={styles.buttonContainer}>
+          <Button title={'Take Picture'} onPress={takePicture} />
         </View>
       </Camera>
+
     </View>
   );
 };
@@ -60,13 +63,17 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     flexDirection: 'column',
-    backgroundColor: 'black',
   },
-  preview: {
+  camera: {
     flex: 1,
-    justifyContent: 'flex-end',
-    alignItems: 'center',
+  },
+  buttonContainer: {
+    flex: 1,
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
+    margin: 20,
+    justifyContent: 'center',
   },
 });
 
-export default ScanRoute;
+export default ScanScreen;
