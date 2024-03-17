@@ -54,7 +54,12 @@ const ScanScreen = () => {
           <Button title={'Take Picture'} onPress={takePicture} />
         </View>
       </Camera>
-
+      {loading && <ActivityIndicator size="large" color="#0000ff" />}
+      <ScrollView>
+        {foodItems.map((item, index) => (
+          <Text key={index}>{item}</Text>
+        ))}
+      </ScrollView>
     </View>
   );
 };
